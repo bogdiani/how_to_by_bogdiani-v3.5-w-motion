@@ -1,0 +1,17 @@
+moviepy==1.0.3
+imageio==2.34.0
+imageio-ffmpeg==0.4.9
+numpy==1.26.4
+pillow==10.3.0
+requests==2.32.3
+tqdm==4.66.4
+
+# TTS + API
+openai==1.51.2
+httpx==0.27.2
+pydub==0.25.1
+# If you plan to use offline TTS sometimes, add:
+# pyttsx3==2.90
+
+# If you used the silent-audio fallback that relies on scipy:
+# scipy==1.13.1

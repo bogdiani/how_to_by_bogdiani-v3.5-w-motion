@@ -1,0 +1,97 @@
+{
+  "topic": "How to keep your houseplants alive (even if you forget to water)",
+  "sections": [
+    {
+      "title": "Intro",
+      "narration": "Struggle to keep houseplants alive? Here are simple tricks to keep them thriving, even if you forget to water.",
+      "visual_suggestions": [
+        {
+          "Action/Context": "Medium-sized fiddle-leaf fig plant in a modern ceramic pot on a wooden side table in a living room.",
+          "Composition": "Medium-wide shot, eye-level angle showing plant as main subject.",
+          "Lighting/Style": "Soft morning daylight through nearby window, warm and inviting mood.",
+          "Quality": "Photoreal, high detail, no text or watermarks, clean uncluttered background."
+        }
+      ],
+      "duration_seconds": 6
+    },
+    {
+      "title": "Step 1: Pick Hardy Plants",
+      "narration": "Choose low-maintenance plants like snake plants, pothos, or succulents. They’re forgiving if you miss a watering.",
+      "visual_suggestions": [
+        {
+          "Action/Context": "Snake plant in tall white pot, pothos trailing from a hanging basket, and small succulent on a windowsill.",
+          "Composition": "Wide shot capturing three plants displayed together for contrast.",
+          "Lighting/Style": "Bright daylight with natural highlights, clean minimalist home interior.",
+          "Quality": "Photoreal, sharp detail, no logos or text."
+        }
+      ],
+      "duration_seconds": 11
+    },
+    {
+      "title": "Step 2: Use Self-Watering Pots",
+      "narration": "Invest in self-watering pots with built-in reservoirs. They release water slowly, keeping soil moist longer.",
+      "visual_suggestions": [
+        {
+          "Action/Context": "Close-up of a medium ceramic self-watering pot with visible water reservoir at the base.",
+          "Composition": "Tight close-up, slightly angled downward to show reservoir design.",
+          "Lighting/Style": "Soft indoor light with bright natural accents, modern clean style.",
+          "Quality": "Photoreal, high detail, no text overlays."
+        }
+      ],
+      "duration_seconds": 11
+    },
+    {
+      "title": "Step 3: Add Moisture-Retaining Soil",
+      "narration": "Mix soil with perlite or coconut coir. These materials hold moisture without drowning the roots.",
+      "visual_suggestions": [
+        {
+          "Action/Context": "Hands pouring perlite into dark potting soil inside a terracotta pot on a wooden table.",
+          "Composition": "Overhead shot showing mixture in the pot clearly.",
+          "Lighting/Style": "Bright natural light, crisp clean colors, balanced shadows.",
+          "Quality": "Photoreal, sharp detail, no extra clutter."
+        }
+      ],
+      "duration_seconds": 10
+    },
+    {
+      "title": "Step 4: Group Plants Together",
+      "narration": "Place plants close to each other. They create a mini-humid environment that helps them retain moisture.",
+      "visual_suggestions": [
+        {
+          "Action/Context": "Cluster of small to medium houseplants like ferns, snake plants, and succulents arranged together on a shelf.",
+          "Composition": "Medium shot, eye-level framing showing group effect.",
+          "Lighting/Style": "Soft daylight, cozy indoor living room style.",
+          "Quality": "Photoreal, high clarity, no text or extra props."
+        }
+      ],
+      "duration_seconds": 10
+    },
+    {
+      "title": "Step 5: Use Watering Reminders",
+      "narration": "Set a phone reminder or use a plant care app to alert you when it’s time to water.",
+      "visual_suggestions": [
+        {
+          "Action/Context": "Phone screen showing a plant care reminder notification, with a plant on the desk beside it.",
+          "Composition": "Close-up of phone in hand, blurred background plant for context.",
+          "Lighting/Style": "Bright indoor lighting with warm tones.",
+          "Quality": "Photoreal, sharp detail, no text overlays besides app notification."
+        }
+      ],
+      "duration_seconds": 10
+    },
+    {
+      "title": "Outro",
+      "narration": "And that’s it! With hardy plants, self-watering pots, and a few reminders, your plants can thrive with less effort.",
+      "visual_suggestions": [
+        {
+          "Action/Context": "Happy person sipping coffee near a bright window with healthy green plants in background.",
+          "Composition": "Medium-wide shot, subject slightly off-center with plants in focus.",
+          "Lighting/Style": "Warm morning daylight, calm and positive mood.",
+          "Quality": "Photoreal, high detail, no text or logos."
+        }
+      ],
+      "duration_seconds": 7
+    }
+  ],
+  "total_estimated_duration": 75
+}

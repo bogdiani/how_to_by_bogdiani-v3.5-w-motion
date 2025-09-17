@@ -1,0 +1,162 @@
+name: Render video
+
+on:
+  workflow_dispatch:
+    inputs:
+      STOCK_SOURCE:
+        description: "Stock: none | both | prefer_pexels | prefer_pixabay | pexels_only | pixabay_only"
+        required: true
+        default: "both"
+      USE_LOCAL_MEDIA:
+        description: "Use assets/local_media match-by-title"
+        required: true
+        default: "false"
+      USE_OPENAI_IMAGES:
+        description: "Generate with OpenAI (gpt-image-1)"
+        required: true
+        default: "false"
+      USE_STABILITY_IMAGES:
+        description: "Generate with Stability"
+        required: true
+        default: "true"
+      STABILITY_ENGINE:
+        description: "Stability engine: core | sd3"
+        required: true
+        default: "core"
+      OPENAI_IMAGE_MODEL:
+        description: "OpenAI image model"
+        required: true
+        default: "gpt-image-1"
+      OPENAI_IMAGE_STYLE:
+        description: "OpenAI style (vivid/photorealistic)"
+        required: true
+        default: "photorealistic"
+      BURN_SUBTITLES:
+        description: "Burn subtitles onto video"
+        required: true
+        default: "false"
+      XFADE_SECONDS:
+        description: "Crossfade seconds (0.0-0.6)"
+        required: true
+        default: "0.4"
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+      PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+      STABILITY_API_KEY: ${{ secrets.STABILITY_API_KEY }}
+
+      # Passed-through toggles
+      USE_LOCAL_MEDIA: ${{ github.event.inputs.USE_LOCAL_MEDIA }}
+      USE_OPENAI_IMAGES: ${{ github.event.inputs.USE_OPENAI_IMAGES }}
+      USE_STABILITY_IMAGES: ${{ github.event.inputs.USE_STABILITY_IMAGES }}
+      STABILITY_ENGINE: ${{ github.event.inputs.STABILITY_ENGINE }}
+      OPENAI_IMAGE_MODEL: ${{ github.event.inputs.OPENAI_IMAGE_MODEL }}
+      OPENAI_IMAGE_STYLE: ${{ github.event.inputs.OPENAI_IMAGE_STYLE }}
+      BURN_SUBTITLES: ${{ github.event.inputs.BURN_SUBTITLES }}
+      XFADE_SECONDS: ${{ github.event.inputs.XFADE_SECONDS }}
+      STOCK_SOURCE: ${{ github.event.inputs.STOCK_SOURCE }}
+
+      # Safe caps for CI speed
+      MAX_SECTION_SECONDS: "20"
+      MAX_RENDER_MINUTES: "12"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+
+      - name: Install deps
+        run: |
+          python -m venv ./.venv
+          . ./.venv/bin/activate
+          pip install --upgrade pip wheel
+          pip install -r requirements.txt
+
+      - name: Render
+        run: |
+          set -e
+
+          # Derive stock env flags from STOCK_SOURCE input
+          case "${STOCK_SOURCE}" in
+            none)
+              export USE_PEXELS=false
+              export USE_PIXABAY=false
+              export PREFERRED_STOCK_SOURCE=auto
+              ;;
+            both)
+              export USE_PEXELS=true
+              export USE_PIXABAY=true
+              export PREFERRED_STOCK_SOURCE=auto
+              ;;
+            prefer_pexels)
+              export USE_PEXELS=true
+              export USE_PIXABAY=true
+              export PREFERRED_STOCK_SOURCE=pexels
+              ;;
+            prefer_pixabay)
+              export USE_PEXELS=true
+              export USE_PIXABAY=true
+              export PREFERRED_STOCK_SOURCE=pixabay
+              ;;
+            pexels_only)
+              export USE_PEXELS=true
+              export USE_PIXABAY=false
+              export PREFERRED_STOCK_SOURCE=pexels
+              ;;
+            pixabay_only)
+              export USE_PEXELS=false
+              export USE_PIXABAY=true
+              export PREFERRED_STOCK_SOURCE=pixabay
+              ;;
+            *)
+              export USE_PEXELS=true
+              export USE_PIXABAY=true
+              export PREFERRED_STOCK_SOURCE=auto
+              ;;
+          esac
+
+          # Avoid ImageMagick checks (we render text via PIL)
+          unset IMAGEMAGICK_BINARY
+          mkdir -p outputs
+
+          echo "[Config] preset=reels"
+          echo "[Config] USE_LOCAL_MEDIA=${USE_LOCAL_MEDIA}"
+          echo "[Config] USE_OPENAI_IMAGES=${USE_OPENAI_IMAGES}"
+          echo "[Config] USE_STABILITY_IMAGES=${USE_STABILITY_IMAGES}"
+          echo "[Config] STABILITY_ENGINE=${STABILITY_ENGINE}"
+          echo "[Config] OPENAI_IMAGE_MODEL=${OPENAI_IMAGE_MODEL}"
+          echo "[Config] OPENAI_IMAGE_STYLE=${OPENAI_IMAGE_STYLE}"
+          echo "[Config] STOCK_SOURCE=${STOCK_SOURCE}"
+          echo "[Config] USE_PEXELS=${USE_PEXELS}"
+          echo "[Config] USE_PIXABAY=${USE_PIXABAY}"
+          echo "[Config] PREFERRED_STOCK_SOURCE=${PREFERRED_STOCK_SOURCE}"
+          echo "[Config] BURN_SUBTITLES=${BURN_SUBTITLES}"
+          echo "[Config] XFADE_SECONDS=${XFADE_SECONDS}"
+
+          ./.venv/bin/python app.py \
+            --input assets/script.json \
+            --output outputs/video.mp4 \
+            --fps 30 \
+            --preset "reels" \
+            --tts "openai"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: video
+          path: outputs/video.mp4
